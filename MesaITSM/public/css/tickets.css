@@ -1,0 +1,47 @@
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.card{background:#fff;padding:22px 18px;border-radius:10px;box-shadow:0 2px 12px rgba(2,6,23,0.06);display:flex;flex-direction:column;align-items:flex-start}
+.card h3{margin:0 0 8px;font-size:18px;font-weight:700}
+.card .stat{font-size:28px;color:#2563eb;margin:0 0 12px;font-weight:600}
+.card p{margin:0 0 12px;font-size:15px;color:#222}
+.card .btn{margin-top:auto}
+@media (max-width:900px){.cards-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.cards-grid{grid-template-columns:1fr}}
+body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:#f7fafc;margin:0;color:#111827}
+.main-header{background:#fff;border-bottom:1px solid #e6e9ef;margin-bottom:24px}
+.main-header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:22px;margin:10px 0;font-weight:700;color:#2563eb}
+.main-header nav a{margin-right:18px;color:#2563eb;text-decoration:none;font-weight:500}
+.main-header nav a:last-child{margin-right:0}
+.container{max-width:900px;margin:30px auto;padding:20px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+.tickets-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.tickets-header h2{margin:0;font-size:20px}
+.btn,.btn-sm{display:inline-block;background:#2563eb;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;margin-right:8px;font-weight:500;border:none;cursor:pointer;transition:.2s}
+.btn-sm{padding:4px 10px;font-size:14px}
+.btn-secondary{background:#e5e7eb;color:#2563eb}
+.btn-danger{background:#ef4444;color:#fff}
+.btn:hover,.btn-sm:hover{opacity:.92}
+.table-responsive{overflow-x:auto}
+.tickets-table{width:100%;border-collapse:collapse;margin-top:12px;background:#fff}
+.tickets-table th,.tickets-table td{padding:10px 8px;border-bottom:1px solid #eef2f7;text-align:left;font-size:15px}
+.tickets-table th{background:#f3f4f6;font-weight:600}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:13px;font-weight:500;margin-right:4px}
+.badge-open{background:#dbeafe;color:#2563eb}
+.badge-in_progress{background:#fef9c3;color:#b45309}
+.badge-closed{background:#fee2e2;color:#b91c1c}
+.badge-low{background:#e0f2fe;color:#0369a1}
+.badge-normal{background:#f3f4f6;color:#374151}
+.badge-high{background:#fee2e2;color:#b91c1c}
+.status{background:#ecfdf5;border:1px solid #bbf7d0;color:#064e3b;padding:10px;border-radius:8px;margin-bottom:8px}
+.errors{background:#fff1f0;border:1px solid #fecaca;color:#7f1d1d;padding:10px;border-radius:8px;margin-bottom:8px}
+.form-card{max-width:500px;margin:0 auto;background:#f9fafb;padding:24px 20px;border-radius:10px;box-shadow:0 2px 12px rgba(2,6,23,0.06)}
+.form-card h2{margin-top:0}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;margin-bottom:6px;font-size:15px;color:#374151}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:8px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:15px}
+.form-group textarea{min-height:80px}
+.ticket-card{max-width:600px;margin:0 auto;background:#f9fafb;padding:24px 20px;border-radius:10px;box-shadow:0 2px 12px rgba(2,6,23,0.06)}
+.ticket-card h2{margin-top:0}
+.ticket-meta{margin-bottom:10px}
+.ticket-actions{margin-top:18px}
+.pagination{margin-top:18px;text-align:center}
+.pagination nav{display:inline-block}
