@@ -1,15 +1,24 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="py-6">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            {{-- Encabezado --}}
+            
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-900">Panel de Control</h1>
                 <p class="mt-2 text-gray-600">Bienvenido al sistema de gestión de servicios de TI</p>
             </div>
 
-            {{-- Tarjetas de estadísticas principales --}}
+            
             <div class="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
-                {{-- Tickets Abiertos --}}
+                
                 <div class="relative overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-sm font-medium text-gray-600">Tickets Abiertos</h3>
@@ -20,12 +29,12 @@
                         </div>
                     </div>
                     <div class="flex items-baseline space-x-2">
-                        <p class="text-4xl font-bold text-gray-900">{{ $pendingTickets }}</p>
+                        <p class="text-4xl font-bold text-gray-900"><?php echo e($pendingTickets); ?></p>
                     </div>
                     <p class="mt-2 text-sm text-gray-500">+3 desde ayer</p>
                 </div>
 
-                {{-- En Progreso --}}
+                
                 <div class="relative overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-sm font-medium text-gray-600">En Progreso</h3>
@@ -36,12 +45,12 @@
                         </div>
                     </div>
                     <div class="flex items-baseline space-x-2">
-                        <p class="text-4xl font-bold text-gray-900">{{ $ticketsPorEstado['en_proceso'] ?? 0 }}</p>
+                        <p class="text-4xl font-bold text-gray-900"><?php echo e($ticketsPorEstado['en_proceso'] ?? 0); ?></p>
                     </div>
                     <p class="mt-2 text-sm text-gray-500">8 asignados a ti</p>
                 </div>
 
-                {{-- Resueltos Hoy --}}
+                
                 <div class="relative overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-sm font-medium text-gray-600">Resueltos Hoy</h3>
@@ -52,12 +61,12 @@
                         </div>
                     </div>
                     <div class="flex items-baseline space-x-2">
-                        <p class="text-4xl font-bold text-gray-900">{{ $resolvedToday }}</p>
+                        <p class="text-4xl font-bold text-gray-900"><?php echo e($resolvedToday); ?></p>
                     </div>
                     <p class="mt-2 text-sm text-gray-500">+6 vs. promedio</p>
                 </div>
 
-                {{-- Críticos --}}
+                
                 <div class="relative overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-sm font-medium text-gray-600">Críticos</h3>
@@ -68,14 +77,14 @@
                         </div>
                     </div>
                     <div class="flex items-baseline space-x-2">
-                        <p class="text-4xl font-bold text-gray-900">{{ $ticketsPorEstado['critico'] ?? 0 }}</p>
+                        <p class="text-4xl font-bold text-gray-900"><?php echo e($ticketsPorEstado['critico'] ?? 0); ?></p>
                     </div>
                     <p class="mt-2 text-sm text-gray-500">Requieren atención</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                {{-- Tickets Recientes --}}
+                
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                     <div class="mb-6">
                         <h2 class="text-lg font-semibold text-gray-900">Tickets Recientes</h2>
@@ -83,63 +92,68 @@
                     </div>
                     
                     <div class="space-y-4">
-                        @forelse($recentTickets as $ticket)
-                        <a href="{{ route('tickets.show', $ticket) }}" class="block group">
+                        <?php $__empty_1 = true; $__currentLoopData = $recentTickets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ticket): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <a href="<?php echo e(route('tickets.show', $ticket)); ?>" class="block group">
                             <div class="relative flex items-start gap-4 p-5 rounded-xl bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
-                                {{-- Contenido Principal --}}
+                                
                                 <div class="flex-1 min-w-0">
-                                    {{-- Folio y Prioridad --}}
+                                    
                                     <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-sm font-medium text-gray-600">{{ $ticket->folio }}</span>
+                                        <span class="text-sm font-medium text-gray-600"><?php echo e($ticket->folio); ?></span>
                                         <span class="inline-flex px-3 py-1 text-xs font-semibold rounded
-                                            @if($ticket->priority === 'critica') bg-red-100 text-red-700
-                                            @elseif($ticket->priority === 'alta') bg-orange-100 text-orange-700
-                                            @elseif($ticket->priority === 'media') bg-yellow-100 text-yellow-700
-                                            @else bg-green-100 text-green-700
-                                            @endif">
-                                            {{ ucfirst($ticket->priority) }}
+                                            <?php if($ticket->priority === 'critica'): ?> bg-red-100 text-red-700
+                                            <?php elseif($ticket->priority === 'alta'): ?> bg-orange-100 text-orange-700
+                                            <?php elseif($ticket->priority === 'media'): ?> bg-yellow-100 text-yellow-700
+                                            <?php else: ?> bg-green-100 text-green-700
+                                            <?php endif; ?>">
+                                            <?php echo e(ucfirst($ticket->priority)); ?>
+
                                         </span>
                                     </div>
                                     
-                                    {{-- Título del Ticket --}}
+                                    
                                     <h3 class="text-base font-semibold text-gray-900 mb-3 line-clamp-2">
-                                        {{ $ticket->title }}
+                                        <?php echo e($ticket->title); ?>
+
                                     </h3>
                                     
-                                    {{-- Estado y Tiempo --}}
+                                    
                                     <div class="flex items-center gap-3">
                                         <span class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
-                                            {{ ucfirst(str_replace('_', ' ', $ticket->status)) }}
+                                            <?php echo e(ucfirst(str_replace('_', ' ', $ticket->status))); ?>
+
                                         </span>
                                         <span class="flex items-center gap-1.5 text-xs text-gray-500">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
-                                            Hace {{ $ticket->created_at->diffForHumans(null, true) }}
+                                            Hace <?php echo e($ticket->created_at->diffForHumans(null, true)); ?>
+
                                         </span>
                                     </div>
                                 </div>
                                 
-                                {{-- Avatar a la derecha --}}
+                                
                                 <div class="flex-shrink-0">
                                     <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white font-semibold text-sm">
-                                        {{ strtoupper(substr($ticket->user->name ?? 'U', 0, 2)) }}
+                                        <?php echo e(strtoupper(substr($ticket->user->name ?? 'U', 0, 2))); ?>
+
                                     </div>
                                 </div>
                             </div>
                         </a>
-                        @empty
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <div class="text-center py-12">
                             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                             </svg>
                             <p class="mt-2 text-sm text-gray-500">No hay tickets recientes</p>
                         </div>
-                        @endforelse
+                        <?php endif; ?>
                     </div>
                 </div>
 
-                {{-- Módulos del Sistema --}}
+                
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                     <div class="mb-6">
                         <h2 class="text-lg font-semibold text-gray-900">Módulos del Sistema</h2>
@@ -147,7 +161,7 @@
                     </div>
                     
                     <div class="space-y-3">
-                        <a href="{{ route('tickets.index') }}" class="flex items-center justify-between p-4 rounded-xl hover:bg-blue-50 transition-colors group">
+                        <a href="<?php echo e(route('tickets.index')); ?>" class="flex items-center justify-between p-4 rounded-xl hover:bg-blue-50 transition-colors group">
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 group-hover:bg-blue-200 transition-colors">
                                     <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,7 +178,7 @@
                             </svg>
                         </a>
 
-                        <a href="{{ route('admin.catalog.categories') }}" class="flex items-center justify-between p-4 rounded-xl hover:bg-purple-50 transition-colors group">
+                        <a href="<?php echo e(route('admin.catalog.categories')); ?>" class="flex items-center justify-between p-4 rounded-xl hover:bg-purple-50 transition-colors group">
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-100 group-hover:bg-purple-200 transition-colors">
                                     <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,7 +195,7 @@
                             </svg>
                         </a>
 
-                        <a href="{{ route('administrador.users.index') }}" class="flex items-center justify-between p-4 rounded-xl hover:bg-green-50 transition-colors group">
+                        <a href="<?php echo e(route('administrador.users.index')); ?>" class="flex items-center justify-between p-4 rounded-xl hover:bg-green-50 transition-colors group">
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 group-hover:bg-green-200 transition-colors">
                                     <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,4 +233,13 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?><?php /**PATH C:\laragon\www\MesaISTM\MesaITSM\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

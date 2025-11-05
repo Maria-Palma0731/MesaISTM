@@ -27,6 +27,7 @@ class StoreTicketRequest extends FormRequest
             'category' => ['required', 'string', 'in:incidente,solicitud_servicio'],
             'subcategory' => ['required', 'string', 'in:hardware,software,red,accesos,otro'],
             'priority' => ['required', 'string', 'in:baja,media,alta,critica'],
+            'assigned_to' => ['nullable', 'exists:users,id'], // Permitir asignación (solo admin)
             'attachments' => ['nullable', 'array', 'max:3'],
             'attachments.*' => [
                 'file',

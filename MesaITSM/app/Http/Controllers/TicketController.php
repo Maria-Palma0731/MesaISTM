@@ -114,7 +114,18 @@ class TicketController extends Controller
      */
     public function create(): View
     {
-        return view('tickets.create');
+        $user = auth()->user();
+        
+        // Si es administrador, obtener lista de técnicos para asignación directa
+        $tecnicos = [];
+        if ($user->role === 'administrador') {
+            $tecnicos = \App\Models\User::where('role', 'tecnico')
+                ->where('is_active', true)
+                ->orderBy('name')
+                ->get();
+        }
+        
+        return view('tickets.create', compact('tecnicos'));
     }
 
     /**

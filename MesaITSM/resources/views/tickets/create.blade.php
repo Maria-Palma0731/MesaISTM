@@ -127,6 +127,28 @@
                         </div>
                     </div>
 
+                    <!-- Asignar a Técnico (Solo para Administradores) -->
+                    @if(auth()->user()->role === 'administrador' && !empty($tecnicos))
+                    <div>
+                        <label for="assigned_to" class="block text-sm font-medium text-gray-700">
+                            Asignar a Técnico
+                            <span class="text-xs text-gray-500">(Opcional - Si no asignas, quedará como "Nuevo")</span>
+                        </label>
+                        <select name="assigned_to" id="assigned_to"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="">Sin asignar</option>
+                            @foreach($tecnicos as $tecnico)
+                                <option value="{{ $tecnico->id }}" {{ old('assigned_to') == $tecnico->id ? 'selected' : '' }}>
+                                    {{ $tecnico->name }} ({{ $tecnico->department }})
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('assigned_to')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    @endif
+
                     <!-- Archivos Adjuntos -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">
@@ -156,7 +178,7 @@
 
                     <!-- Botones -->
                     <div class="flex justify-end space-x-3">
-                        <a href="{{ route('usuario.dashboard') }}"
+                        <a href="{{ auth()->user()->role === 'administrador' ? route('administrador.tickets.index') : route(auth()->user()->role . '.dashboard') }}"
                             class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Cancelar
                         </a>

@@ -127,14 +127,20 @@
             {{-- Tabla de Tickets --}}
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <div class="flex justify-between mb-4">
+                    <div class="flex justify-between items-center mb-4">
                         <h3 class="text-lg font-medium text-gray-900">
                             Lista de Tickets
                         </h3>
-                        <a href="{{ route('admin.tickets.mass-assign') }}"
-                            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
-                            Asignación Masiva
-                        </a>
+                        <div class="flex gap-3">
+                            <a href="{{ route('tickets.create') }}"
+                                class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700">
+                                + Crear Ticket
+                            </a>
+                            <a href="{{ route('admin.tickets.mass-assign') }}"
+                                class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+                                Asignación Masiva
+                            </a>
+                        </div>
                     </div>
 
                     <div class="overflow-x-auto">

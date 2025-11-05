@@ -3,7 +3,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {{-- Encabezado --}}
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">Dashboard de Usuario</h1>
+                <h1 class="text-3xl font-bold text-gray-900">Dashboard de {{ auth()->user()->name }}</h1>
             </div>
 
             {{-- Estadísticas principales --}}
