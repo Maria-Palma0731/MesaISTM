@@ -190,7 +190,7 @@
                             </svg>
                         </a>
 
-                        <a href="#" class="flex items-center justify-between p-4 rounded-xl hover:bg-orange-50 transition-colors group">
+                        <a href="<?php echo e(route('admin.reports.index')); ?>" class="flex items-center justify-between p-4 rounded-xl hover:bg-orange-50 transition-colors group">
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 group-hover:bg-orange-200 transition-colors">
                                     <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

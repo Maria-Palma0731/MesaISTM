@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\KnowledgeArticle;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class KnowledgeArticleSeeder extends Seeder
 {
@@ -14,6 +15,7 @@ class KnowledgeArticleSeeder extends Seeder
             // ==================== GUÍAS Y TUTORIALES ====================
             [
                 'title' => 'Cómo crear un nuevo ticket de soporte',
+                'slug' => 'como-crear-un-nuevo-ticket-de-soporte',
                 'category' => 'guias',
                 'summary' => 'Guía paso a paso para crear y enviar un ticket de soporte técnico en el sistema.',
                 'content' => "# Cómo crear un nuevo ticket de soporte\n\n## Introducción\nEsta guía te ayudará a crear un ticket de soporte de manera efectiva.\n\n## Pasos a seguir\n\n### 1. Acceder al sistema\n- Inicia sesión con tus credenciales\n- Ve al menú principal\n\n### 2. Crear nuevo ticket\n- Haz clic en \"Nuevo Ticket\"\n- Selecciona la categoría apropiada\n- Describe tu problema claramente\n\n### 3. Información importante\n- **Título**: Sé específico y claro\n- **Descripción**: Incluye todos los detalles relevantes\n- **Prioridad**: Selecciona según la urgencia\n- **Archivos**: Adjunta capturas de pantalla si es necesario\n\n## Consejos\n- Proporciona el máximo de información posible\n- Incluye mensajes de error si los hay\n- Describe los pasos que llevaron al problema",
@@ -131,6 +133,10 @@ class KnowledgeArticleSeeder extends Seeder
         ];
 
         foreach ($articles as $article) {
+            // Auto-generate slug if not provided
+            if (!isset($article['slug'])) {
+                $article['slug'] = Str::slug($article['title']);
+            }
             KnowledgeArticle::create($article);
         }
     }

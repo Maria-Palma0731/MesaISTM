@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba API REST - Reportes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #f59e0b;
+            padding-bottom: 10px;
+        }
+        .endpoint {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .endpoint h3 {
+            color: #1f2937;
+            margin: 0 0 10px 0;
+        }
+        .method {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        .get { background: #10b981; color: white; }
+        button {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #d97706;
+        }
+        .response {
+            background: #1f2937;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        .loading {
+            color: #f59e0b;
+            font-style: italic;
+        }
+        .error {
+            color: #ef4444;
+        }
+        .url {
+            color: #6b7280;
+            font-size: 13px;
+            margin: 5px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Prueba de API REST - Módulo de Reportes</h1>
+    
+        <!-- Dashboard -->
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> Dashboard de Reportes</h3>
+            <div class="url">/api/reports/dashboard</div>
+            <p>Obtiene estadísticas generales del sistema (tickets, usuarios, KB, servicios).</p>
+            <button onclick="testEndpoint('dashboard', '/api/reports/dashboard')">Probar Dashboard</button>
+            <div id="response-dashboard" class="response"></div>
+        </div>
+
+        <!-- Tickets -->
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> Reporte de Tickets</h3>
+            <div class="url">/api/reports/tickets?date_from=2025-10-01&date_to=2025-11-26</div>
+            <p>Lista de tickets con filtros de fecha, estado, prioridad, tipo y técnico.</p>
+            <button onclick="testEndpoint('tickets', '/api/reports/tickets?date_from=2025-10-01&date_to=2025-11-26')">Probar Tickets</button>
+            <div id="response-tickets" class="response"></div>
+        </div>
+
+        <!-- Técnicos -->
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> Rendimiento de Técnicos</h3>
+            <div class="url">/api/reports/technicians</div>
+            <p>Métricas de productividad y eficiencia de técnicos.</p>
+            <button onclick="testEndpoint('technicians', '/api/reports/technicians')">Probar Técnicos</button>
+            <div id="response-technicians" class="response"></div>
+        </div>
+
+        <!-- Servicios -->
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> Servicios Más Solicitados</h3>
+            <div class="url">/api/reports/services</div>
+            <p>Top 20 servicios más solicitados con tasas de resolución.</p>
+            <button onclick="testEndpoint('services', '/api/reports/services')">Probar Servicios</button>
+            <div id="response-services" class="response"></div>
+        </div>
+
+        <!-- Base de Conocimiento -->
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> Reporte de Base de Conocimiento</h3>
+            <div class="url">/api/reports/knowledge-base</div>
+            <p>Estadísticas de artículos de la base de conocimiento.</p>
+            <button onclick="testEndpoint('knowledge-base', '/api/reports/knowledge-base')">Probar KB</button>
+            <div id="response-knowledge-base" class="response"></div>
+        </div>
+
+        <!-- Tendencias -->
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> Tendencias Temporales</h3>
+            <div class="url">/api/reports/trends</div>
+            <p>Datos de tendencias de tickets creados y resueltos por día.</p>
+            <button onclick="testEndpoint('trends', '/api/reports/trends')">Probar Tendencias</button>
+            <div id="response-trends" class="response"></div>
+        </div>
+
+        <!-- Export JSON -->
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> Exportar Datos (JSON)</h3>
+            <div class="url">/api/reports/export?type=tickets&format=json</div>
+            <p>Exporta datos en formato JSON.</p>
+            <button onclick="testEndpoint('export', '/api/reports/export?type=tickets&format=json')">Probar Export</button>
+            <div id="response-export" class="response"></div>
+        </div>
+    </div>
+
+    <script>
+        async function testEndpoint(name, url) {
+            const responseDiv = document.getElementById(`response-${name}`);
+            responseDiv.style.display = 'block';
+            responseDiv.innerHTML = '<span class="loading">⏳ Cargando...</span>';
+
+            try {
+                const response = await fetch(`http://localhost:8000${url}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    responseDiv.innerHTML = `<strong>✅ Status: ${response.status} ${response.statusText}</strong>\n\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    responseDiv.innerHTML = `<span class="error"><strong>❌ Error ${response.status}</strong>\n\n${JSON.stringify(data, null, 2)}</span>`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<span class="error"><strong>❌ Error de Red</strong>\n\n${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

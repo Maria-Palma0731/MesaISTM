@@ -74,6 +74,14 @@ class Ticket extends Model
     }
 
     /**
+     * The service associated with this ticket
+     */
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
+
+    /**
      * The attachments for this ticket
      */
     public function attachments(): HasMany

@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\UserServiceController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\KnowledgeBaseController;
+use App\Http\Controllers\AdminReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -109,6 +110,12 @@ Route::middleware(['auth', 'role:administrador'])->group(function () {
     Route::get('/administrador/base-conocimiento/{id}/editar', [KnowledgeBaseController::class, 'edit'])->name('admin.knowledge-base.edit');
     Route::put('/administrador/base-conocimiento/{id}', [KnowledgeBaseController::class, 'update'])->name('admin.knowledge-base.update');
     Route::delete('/administrador/base-conocimiento/{id}', [KnowledgeBaseController::class, 'destroy'])->name('admin.knowledge-base.destroy');
+    
+    // Reportes y Estadísticas
+    Route::get('/administrador/reportes', [AdminReportController::class, 'index'])->name('admin.reports.index');
+    Route::get('/administrador/reportes/tickets', [AdminReportController::class, 'tickets'])->name('admin.reports.tickets');
+    Route::get('/administrador/reportes/tecnicos', [AdminReportController::class, 'technicians'])->name('admin.reports.technicians');
+    Route::get('/administrador/reportes/exportar', [AdminReportController::class, 'export'])->name('admin.reports.export');
 });
 
 require __DIR__.'/auth.php';

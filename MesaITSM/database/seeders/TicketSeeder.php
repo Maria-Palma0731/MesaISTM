@@ -19,12 +19,14 @@ class TicketSeeder extends Seeder
             'description' => 'No puedo acceder a mi correo corporativo. Me aparece un error de autenticación cada vez que intento ingresar.',
             'category' => 'incidente',
             'subcategory' => 'software',
-            'status' => 'nuevo',
+            'status' => 'resuelto',
             'priority' => 'alta',
             'created_by' => 11, // Juan Pérez
             'assigned_to' => 3, // Técnico Usuario
+            'service_id' => 1, // Soporte Técnico General
             'department' => 'IT',
-            'created_at' => Carbon::now()->subDays(2)
+            'created_at' => Carbon::now()->subDays(15),
+            'updated_at' => Carbon::now()->subDays(14)
         ]);
 
         // Ticket 2 - Error en sistema de ventas
@@ -34,12 +36,14 @@ class TicketSeeder extends Seeder
             'description' => 'El sistema muestra error al generar reportes mensuales. Se queda cargando indefinidamente.',
             'category' => 'incidente',
             'subcategory' => 'software',
-            'status' => 'en_proceso',
+            'status' => 'resuelto',
             'priority' => 'media',
             'created_by' => 16, // Carmen Ruiz
             'assigned_to' => 4, // Carlos Rodríguez
+            'service_id' => 2, // Mantenimiento de Software
             'department' => 'Ventas',
-            'created_at' => Carbon::now()->subDays(5)
+            'created_at' => Carbon::now()->subDays(20),
+            'updated_at' => Carbon::now()->subDays(18)
         ]);
 
         // Ticket 3 - Computadora no enciende
@@ -49,12 +53,14 @@ class TicketSeeder extends Seeder
             'description' => 'Mi computadora de escritorio no enciende desde esta mañana. No hace ningún sonido cuando presiono el botón de encendido.',
             'category' => 'incidente',
             'subcategory' => 'hardware',
-            'status' => 'asignado',
+            'status' => 'resuelto',
             'priority' => 'alta',
             'created_by' => 12, // Laura Torres
             'assigned_to' => 7, // Patricia López
+            'service_id' => 3, // Reparación de Hardware
             'department' => 'Marketing',
-            'created_at' => Carbon::now()->subHours(5)
+            'created_at' => Carbon::now()->subDays(10),
+            'updated_at' => Carbon::now()->subDays(9)
         ]);
 
         // Ticket 4 - Internet lento
@@ -64,12 +70,14 @@ class TicketSeeder extends Seeder
             'description' => 'La conexión a internet en mi área está extremadamente lenta. No puedo acceder a los sistemas en la nube.',
             'category' => 'incidente',
             'subcategory' => 'redes',
-            'status' => 'en_proceso',
+            'status' => 'resuelto',
             'priority' => 'media',
             'created_by' => 13, // Pedro Ramírez
             'assigned_to' => 6, // Luis Fernández
+            'service_id' => 4, // Configuración de Red
             'department' => 'Contabilidad',
-            'created_at' => Carbon::now()->subDays(1)
+            'created_at' => Carbon::now()->subDays(8),
+            'updated_at' => Carbon::now()->subDays(7)
         ]);
 
         // Ticket 5 - Impresora no funciona
@@ -83,9 +91,11 @@ class TicketSeeder extends Seeder
             'priority' => 'baja',
             'created_by' => 14, // Sofia Jiménez
             'assigned_to' => 7, // Patricia López
+            'service_id' => 3, // Reparación de Hardware
             'department' => 'Recursos Humanos',
-            'created_at' => Carbon::now()->subDays(7),
-            'closed_at' => Carbon::now()->subDays(6)
+            'created_at' => Carbon::now()->subDays(12),
+            'updated_at' => Carbon::now()->subDays(11),
+            'closed_at' => Carbon::now()->subDays(11)
         ]);
 
         // Ticket 6 - Software se cierra solo
@@ -95,8 +105,9 @@ class TicketSeeder extends Seeder
             'description' => 'El programa de contabilidad se cierra solo cada vez que intento generar un balance. He perdido información varias veces.',
             'category' => 'incidente',
             'subcategory' => 'software',
-            'status' => 'pendiente_usuario',
+            'status' => 'resuelto',
             'priority' => 'alta',
+            'service_id' => 2, // Mantenimiento de Software
             'created_by' => 18, // Elena Castro
             'assigned_to' => 8, // Roberto Sánchez
             'department' => 'Contabilidad',
