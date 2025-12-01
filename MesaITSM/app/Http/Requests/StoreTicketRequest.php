@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreTicketRequest extends FormRequest
 {
@@ -12,6 +14,24 @@ class StoreTicketRequest extends FormRequest
     public function authorize(): bool
     {
         return true; // Cualquier usuario autenticado puede crear tickets
+    }
+
+    /**
+     * Handle a failed validation attempt for AJAX requests.
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        if ($this->ajax() || $this->wantsJson()) {
+            throw new HttpResponseException(
+                response()->json([
+                    'success' => false,
+                    'message' => 'Error de validación',
+                    'errors' => $validator->errors()
+                ], 422)
+            );
+        }
+
+        parent::failedValidation($validator);
     }
 
     /**
@@ -25,8 +45,9 @@ class StoreTicketRequest extends FormRequest
             'title' => ['required', 'string', 'min:10', 'max:255'],
             'description' => ['required', 'string', 'min:20'],
             'category' => ['required', 'string', 'in:incidente,solicitud_servicio'],
-            'subcategory' => ['required', 'string', 'in:hardware,software,red,accesos,otro'],
+            'subcategory' => ['required', 'string', 'in:hardware,software,red,seguridad,otro'],
             'priority' => ['required', 'string', 'in:baja,media,alta,critica'],
+            'assigned_to' => ['nullable', 'exists:users,id'],
             'attachments' => ['nullable', 'array', 'max:3'],
             'attachments.*' => [
                 'file',

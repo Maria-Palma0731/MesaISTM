@@ -543,6 +543,16 @@
         }
 
         function closeCreateModal() {
+            // Limpiar errores
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+            document.querySelectorAll('.border-red-500').forEach(el => {
+                el.classList.remove('border-red-500');
+            });
+            
+            // Limpiar formulario
+            document.getElementById('createTicketForm').reset();
+            
+            // Ocultar modal
             document.getElementById('createModal').classList.add('hidden');
         }
 
@@ -552,6 +562,12 @@
             
             createForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
+                
+                // Limpiar errores previos
+                document.querySelectorAll('.error-message').forEach(el => el.remove());
+                document.querySelectorAll('.border-red-500').forEach(el => {
+                    el.classList.remove('border-red-500');
+                });
                 
                 const formData = new FormData(this);
                 const submitBtn = this.querySelector('button[type="submit"]');
@@ -573,21 +589,42 @@
                     
                     const data = await response.json();
                     
-                    if (data.success) {
+                    if (response.ok && data.success) {
                         // Cerrar modal
                         closeCreateModal();
                         
-                        // Mostrar mensaje de éxito con SweetAlert o alert
+                        // Limpiar formulario
+                        createForm.reset();
+                        
+                        // Mostrar mensaje de éxito
                         alert(`✅ Ticket creado exitosamente\n\nFolio: ${data.folio}\n\nEl ticket ha sido registrado correctamente.`);
                         
                         // Recargar la página para ver el nuevo ticket
                         window.location.reload();
+                    } else if (response.status === 422) {
+                        // Errores de validación
+                        const errors = data.errors || {};
+                        let errorMessage = '❌ Por favor corrige los siguientes errores:\n\n';
+                        
+                        Object.keys(errors).forEach(field => {
+                            const inputField = document.getElementById(`create_${field}`);
+                            if (inputField) {
+                                inputField.classList.add('border-red-500');
+                                const errorDiv = document.createElement('div');
+                                errorDiv.className = 'error-message text-red-500 text-sm mt-1';
+                                errorDiv.textContent = errors[field][0];
+                                inputField.parentNode.appendChild(errorDiv);
+                            }
+                            errorMessage += `• ${errors[field][0]}\n`;
+                        });
+                        
+                        alert(errorMessage);
                     } else {
-                        alert('❌ Error al crear el ticket. Por favor intenta nuevamente.');
+                        alert('❌ ' + (data.message || 'Error al crear el ticket. Por favor intenta nuevamente.'));
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('❌ Error al crear el ticket. Por favor intenta nuevamente.');
+                    alert('❌ Error de conexión. Por favor verifica tu conexión e intenta nuevamente.');
                 } finally {
                     // Restaurar botón
                     submitBtn.disabled = false;

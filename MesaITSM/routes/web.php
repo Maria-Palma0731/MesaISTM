@@ -38,8 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/catalogo', [UserServiceController::class, 'index'])->name('catalog.index');
     Route::get('/catalogo/categoria/{category}', [UserServiceController::class, 'category'])->name('catalog.category');
     Route::get('/catalogo/servicio/{service}', [UserServiceController::class, 'show'])->name('catalog.show');
-    Route::get('/catalogo/servicio/{service}/solicitar', [UserServiceController::class, 'requestForm'])->name('catalog.request');
-    Route::post('/catalogo/servicio/{service}/solicitar', [UserServiceController::class, 'request'])->name('catalog.request.store');
+    
+    // Base de Conocimiento - Acceso para TODOS los usuarios autenticados
+    Route::get('/base-conocimiento', [KnowledgeBaseController::class, 'publicIndex'])->name('knowledge-base.index');
+    Route::get('/base-conocimiento/{id}', [KnowledgeBaseController::class, 'publicShow'])->name('knowledge-base.show');
+    Route::get('/base-conocimiento/buscar', [KnowledgeBaseController::class, 'search'])->name('knowledge-base.search');
     
     // Tickets - TODOS los roles pueden crear y gestionar sus propios tickets
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
@@ -66,8 +69,11 @@ Route::middleware(['auth', 'role:tecnico'])->group(function () {
     Route::get('/tecnico/tickets', [TecnicoTicketController::class, 'index'])->name('tecnico.tickets.index');
     Route::get('/tecnico/tickets/{ticket}', [TecnicoTicketController::class, 'show'])->name('tecnico.tickets.show');
     Route::put('/tecnico/tickets/{ticket}/update', [TecnicoTicketController::class, 'update'])->name('tecnico.tickets.update');
+    Route::post('/tecnico/tickets/{ticket}/update-status', [TecnicoTicketController::class, 'updateStatus'])->name('tecnico.tickets.updateStatus');
     Route::post('/tecnico/tickets/{ticket}/comment', [TecnicoTicketController::class, 'addComment'])->name('tecnico.tickets.comment');
     Route::post('/tecnico/tickets/{ticket}/time', [TecnicoTicketController::class, 'logTime'])->name('tecnico.tickets.time');
+    Route::post('/tecnico/tickets/{ticket}/escalate', [TecnicoTicketController::class, 'escalate'])->name('tecnico.tickets.escalate');
+    Route::post('/tecnico/tickets/{ticket}/resolve', [TecnicoTicketController::class, 'resolve'])->name('tecnico.tickets.resolve');
 });
 
 // Rutas protegidas para administradores

@@ -54,7 +54,7 @@ class AdminDashboardController extends Controller
         
         $calificacionPromedio = $avgRating ? round($avgRating, 1) : 'N/A';
 
-        // Estadísticas generales (las que ya tenías)
+        // Estadísticas generales
         $totalTickets = Ticket::count();
         $pendingTickets = Ticket::whereIn('status', ['nuevo', 'asignado', 'en_proceso'])->count();
         $activeTechnicians = User::where('role', 'tecnico')->where('is_active', true)->count();

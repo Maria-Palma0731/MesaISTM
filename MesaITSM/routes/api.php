@@ -5,16 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ReportController;
 
 /*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
+| API
 */
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Rutas de reportes (sin autenticación para pruebas)
+// Rutas de reportes
 Route::prefix('reports')->group(function () {
     Route::get('/dashboard', [ReportController::class, 'dashboard']);
     Route::get('/tickets', [ReportController::class, 'tickets']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Service;
 use App\Models\TicketAttachment;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\CloseTicketRequest;
@@ -112,9 +113,14 @@ class TicketController extends Controller
     /**
      * Show the form for creating a new ticket.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('tickets.create');
+        $selectedService = null;
+        if ($request->has('service_id')) {
+            $selectedService = Service::find($request->get('service_id'));
+        }
+        
+        return view('tickets.create', compact('selectedService'));
     }
 
     /**

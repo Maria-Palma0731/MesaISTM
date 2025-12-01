@@ -94,6 +94,63 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Accesos Rápidos -->
+            <div class="mt-8">
+                <h3 class="mb-4 text-lg font-medium text-gray-900">Accesos Rápidos</h3>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <!-- Gestión de Tickets -->
+                    <a href="{{ route('tecnico.tickets.index') }}" class="block p-6 transition bg-white rounded-lg shadow hover:shadow-md">
+                        <div class="flex items-start">
+                            <div class="flex items-center justify-center flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Gestión de Tickets</h4>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Ver y gestionar tickets asignados
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Base de Conocimiento -->
+                    <a href="{{ route('knowledge-base.index') }}" class="block p-6 transition bg-white rounded-lg shadow hover:shadow-md">
+                        <div class="flex items-start">
+                            <div class="flex items-center justify-center flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Base de Conocimiento</h4>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Consulta guías, FAQs y documentación técnica
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Catálogo de Servicios -->
+                    <a href="{{ route('catalog.index') }}" class="block p-6 transition bg-white rounded-lg shadow hover:shadow-md">
+                        <div class="flex items-start">
+                            <div class="flex items-center justify-center flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-lg">
+                                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Catálogo de Servicios</h4>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Explora los servicios disponibles
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 

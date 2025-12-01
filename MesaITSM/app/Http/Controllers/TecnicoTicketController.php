@@ -17,6 +17,115 @@ use Carbon\Carbon;
 class TecnicoTicketController extends Controller
 {
     /**
+     * Lista de tickets asignados al técnico (index)
+     */
+    public function index(Request $request): View
+    {
+        $query = Ticket::where('assigned_to', auth()->id())
+            ->with(['user', 'service.category']);
+
+        // Filtros
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('folio', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Ordenamiento
+        $sortBy = $request->get('sort', 'created_at');
+        $sortOrder = $request->get('order', 'desc');
+        $query->orderBy($sortBy, $sortOrder);
+
+        $tickets = $query->paginate(15)->withQueryString();
+
+        return view('tecnico.tickets.index', compact('tickets'));
+    }
+
+    /**
+     * Muestra un ticket específico
+     */
+    public function show(Ticket $ticket): View
+    {
+        // Verificar que el ticket esté asignado al técnico
+        if ($ticket->assigned_to !== auth()->id()) {
+            abort(403, 'No tienes permiso para ver este ticket');
+        }
+
+        $ticket->load([
+            'user',
+            'service.category',
+            'assignedTo',
+            'comments.user',
+            'timeLogs.user',
+            'history.user',
+            'attachments'
+        ]);
+
+        // Obtener lista de técnicos para escalamiento
+        $tecnicos = User::where('role', 'tecnico')
+            ->where('id', '!=', auth()->id())
+            ->orderBy('name')
+            ->get();
+
+        return view('tecnico.tickets.show', compact('ticket', 'tecnicos'));
+    }
+
+    /**
+     * Actualiza el estado de un ticket
+     */
+    public function update(Request $request, Ticket $ticket): RedirectResponse
+    {
+        // Verificar que el ticket esté asignado al técnico
+        if ($ticket->assigned_to !== auth()->id()) {
+            abort(403, 'No tienes permiso para actualizar este ticket');
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:asignado,en_proceso,pendiente_usuario,resuelto',
+            'comment' => 'nullable|string'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $ticket->update([
+                'status' => $validated['status']
+            ]);
+
+            if (!empty($validated['comment'])) {
+                $ticket->comments()->create([
+                    'user_id' => auth()->id(),
+                    'comment' => $validated['comment'],
+                    'is_internal' => false
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()
+                ->route('tecnico.tickets.show', $ticket)
+                ->with('success', 'Ticket actualizado correctamente');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error al actualizar ticket: ' . $e->getMessage());
+            
+            return back()->with('error', 'Error al actualizar el ticket');
+        }
+    }
+
+    /**
      * Muestra el dashboard del técnico
      */
     public function dashboard(): View

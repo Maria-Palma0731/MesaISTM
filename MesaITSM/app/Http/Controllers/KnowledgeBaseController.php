@@ -123,4 +123,84 @@ class KnowledgeBaseController extends Controller
             ->route('admin.knowledge-base.index')
             ->with('success', 'Artículo eliminado exitosamente');
     }
+
+    /**
+     * Vista pública de la base de conocimiento para usuarios
+     */
+    public function publicIndex(Request $request): View
+    {
+        $query = KnowledgeArticle::with('creator')->published();
+        
+        // Filtrar por categoría si se proporciona
+        if ($request->has('category') && $request->category != '') {
+            $query->byCategory($request->category);
+        }
+        
+        // Buscar por término si se proporciona
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%")
+                  ->orWhere('summary', 'like', "%{$search}%")
+                  ->orWhere('tags', 'like', "%{$search}%");
+            });
+        }
+        
+        $articles = $query->orderBy('views', 'desc')
+                         ->orderBy('created_at', 'desc')
+                         ->paginate(12);
+        
+        $stats = [
+            'total' => KnowledgeArticle::published()->count(),
+            'guias' => KnowledgeArticle::published()->byCategory('guias')->count(),
+            'faq' => KnowledgeArticle::published()->byCategory('faq')->count(),
+            'tecnica' => KnowledgeArticle::published()->byCategory('tecnica')->count(),
+        ];
+
+        return view('knowledge-base.index', compact('articles', 'stats'));
+    }
+
+    /**
+     * Vista pública de un artículo específico para usuarios
+     */
+    public function publicShow($id): View
+    {
+        $article = KnowledgeArticle::with('creator')
+            ->published()
+            ->findOrFail($id);
+        
+        $article->incrementViews();
+        
+        // Artículos relacionados de la misma categoría
+        $relatedArticles = KnowledgeArticle::published()
+            ->byCategory($article->category)
+            ->where('id', '!=', $article->id)
+            ->orderBy('views', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('knowledge-base.show', compact('article', 'relatedArticles'));
+    }
+
+    /**
+     * Búsqueda en la base de conocimiento
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('q', '');
+        
+        $articles = KnowledgeArticle::with('creator')
+            ->published()
+            ->where(function($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                      ->orWhere('content', 'like', "%{$search}%")
+                      ->orWhere('summary', 'like', "%{$search}%")
+                      ->orWhere('tags', 'like', "%{$search}%");
+            })
+            ->orderBy('views', 'desc')
+            ->paginate(10);
+
+        return view('knowledge-base.search', compact('articles', 'search'));
+    }
 }

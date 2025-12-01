@@ -89,7 +89,7 @@
                             </svg>
                         </a>
 
-                        <a href="#" 
+                        <a href="{{ route('catalog.index') }}" 
                            class="flex items-center justify-between p-4 rounded-xl hover:bg-purple-50 transition-colors group border border-gray-200">
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-100 group-hover:bg-purple-200 transition-colors">
@@ -107,7 +107,7 @@
                             </svg>
                         </a>
 
-                        <a href="#" 
+                        <a href="{{ route('knowledge-base.index') }}" 
                            class="flex items-center justify-between p-4 rounded-xl hover:bg-cyan-50 transition-colors group border border-gray-200">
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-cyan-100 group-hover:bg-cyan-200 transition-colors">

@@ -40,11 +40,11 @@ class Service extends Model
     // Helper para validar la estructura del JSON de form_fields
     public function validateFormFields(): bool
     {
-        if (!is_array($this->form_fields) || !isset($this->form_fields['campos']) || !is_array($this->form_fields['campos'])) {
+        if (!is_array($this->form_fields) || empty($this->form_fields)) {
             return false;
         }
 
-        foreach ($this->form_fields['campos'] as $field) {
+        foreach ($this->form_fields as $field) {
             if (!isset($field['name'], $field['type'], $field['label'])) {
                 return false;
             }
@@ -65,7 +65,7 @@ class Service extends Model
         }
 
         $html = '';
-        foreach ($this->form_fields['campos'] as $field) {
+        foreach ($this->form_fields as $field) {
             $html .= match($field['type']) {
                 'text' => $this->generateTextField($field),
                 'textarea' => $this->generateTextareaField($field),
